@@ -36,7 +36,7 @@ from pyhibp import pwnedpasswords as pw
 
 
 crx = 0
-wait = animation.Wait()
+#wait = animation.Wait()
 option_selected = 0
 intelx_api_key = ''
 buffer = 0
@@ -95,7 +95,7 @@ def generatePassword(param_lst):
 
 
 print("\n----------------------------------------------------------------")
-print("[magenta]Welcome to the sample script, Here are your [bold]options[/bold]: \n[aquamarine]1. Check online presence strength :muscle:[/aquamarine]\n[red]2. Suggest a random strong password :closed_lock_with_key:[/red]\n")
+print("[magenta]Welcome to the sample script, Here are your [bold]options[/bold]: \n[aquamarine]1. Check online presence strength :muscle:[/aquamarine]\n[red]2. Suggest a random strong password :closed_lock_with_key:[/red]\n3. INTERNAL TESTING\n")
 option_selected = int(input())
 consoleClear()
 
@@ -468,10 +468,32 @@ if option_selected == 2:
     
 # ────────────────────────────────────────────────────────────────────────────────
 # ────────────────────────────────────────────────────────────────────────────────
-# ─── INTERNAL ONLY ──────────────────────────────────────────────────────────────
+# ─── UNIT TESTING + INTERNAL TESTING ────────────────────────────────────────────
 # ────────────────────────────────────────────────────────────────────────────────
 # ────────────────────────────────────────────────────────────────────────────────
 
 if option_selected == 3:
-    print("\n INTERNAL ONLY\n")
+    print("\n INTERNAL ONLY (UNIT-TESTING)\n")
 
+    cmd_unittest = 'python test_final_code_proj.py'
+    
+    f = open("internal.txt", "w")
+    p = subprocess.run(cmd_unittest, stdout=f)
+    f.close()
+    
+    f = open("internal.txt", "r")    
+    
+    with Progress() as progress:
+
+        task2 = progress.add_task("[red]Checking...", total=1000)
+        
+        while not progress.finished:
+            progress.update(task2, advance=9)
+            time.sleep(0.02)
+    
+    for line in f:
+        line = line.strip("\n")
+        if "FAILED" in line:
+            print("[red][bold] TESTS FAILED [/bold][/red]")
+        else:
+            print("[bright_green][bold] ALL TESTS PASSED [/bold][/bright_green]")
